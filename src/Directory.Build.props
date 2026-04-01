@@ -4,4 +4,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Build.Tests.props"
+          Condition="$(MSBuildProjectFile.EndsWith('.Tests.csproj'))" />
 </Project>

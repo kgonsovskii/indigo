@@ -1,5 +1,6 @@
 using Feed.Parser.CoinBase;
 using Feed.Parser.LaToken;
+using FluentAssertions;
 using Poller.Model;
 using Xunit;
 
@@ -35,9 +36,9 @@ public sealed class NormalizedTickTests
         {
             var json = File.ReadAllText(Path.Combine(testDataDir, fileName)).Trim();
             var (ok, tick) = TryParseConcreteParser(parser, json, exchangeId);
-            Assert.True(ok);
-            Assert.NotNull(tick);
-            AssertMatchesFixture(tick, exchangeId);
+            ok.Should().BeTrue();
+            tick.Should().NotBeNull();
+            AssertMatchesFixture(tick!, exchangeId);
         }
     }
 
@@ -50,10 +51,10 @@ public sealed class NormalizedTickTests
 
     private static void AssertMatchesFixture(NormalizedTick tick, string expectedExchangeId)
     {
-        Assert.Equal(Pair, tick.Symbol);
-        Assert.Equal(ExpectedPrice, tick.Price);
-        Assert.Equal(ExpectedVolume, tick.Volume);
-        Assert.Equal(ExpectedTimestamp, tick.TimestampUtc);
-        Assert.Equal(expectedExchangeId, tick.ExchangeId);
+        tick.Symbol.Should().Be(Pair);
+        tick.Price.Should().Be(ExpectedPrice);
+        tick.Volume.Should().Be(ExpectedVolume);
+        tick.TimestampUtc.Should().Be(ExpectedTimestamp);
+        tick.ExchangeId.Should().Be(expectedExchangeId);
     }
 }

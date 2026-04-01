@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
 using Poller.Application;
@@ -16,13 +17,25 @@ public sealed class RecentTickDeduplicatorTests
 
     private static readonly DateTimeOffset FixedTs = new(2026, 4, 1, 12, 0, 0, TimeSpan.Zero);
 
-    [Fact]
-    public void FirstOccurrenceIsNotDuplicate()
+    [Theory]
+    [InlineData(100, 50, true)]
+    [InlineData(100, 101, false)]
+    public void SameTickAfterTimeAdvance_DependsOnDeduplicationWindow(
+        int deduplicationWindowMs,
+        int timeAdvanceMs,
+        bool expectThirdCallIsDuplicate)
     {
-        var d = Create(GiantWindow);
+        var fake = new FakeTimeProvider(FixedTs);
+        var window = TimeSpan.FromMilliseconds(deduplicationWindowMs);
+        var d = Create(window, fake);
         var tick = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
 
-        Assert.False(d.IsDuplicate(tick));
+        d.IsDuplicate(tick).Should().BeFalse();
+        d.IsDuplicate(tick).Should().BeTrue();
+
+        fake.Advance(TimeSpan.FromMilliseconds(timeAdvanceMs));
+
+        d.IsDuplicate(tick).Should().Be(expectThirdCallIsDuplicate);
     }
 
     [Fact]
@@ -31,8 +44,8 @@ public sealed class RecentTickDeduplicatorTests
         var d = Create(GiantWindow);
         var tick = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
 
-        Assert.False(d.IsDuplicate(tick));
-        Assert.True(d.IsDuplicate(tick));
+        d.IsDuplicate(tick).Should().BeFalse();
+        d.IsDuplicate(tick).Should().BeTrue();
     }
 
     [Fact]
@@ -42,8 +55,8 @@ public sealed class RecentTickDeduplicatorTests
         var a = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
         var b = new NormalizedTick("CoinBase", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
 
-        Assert.False(d.IsDuplicate(a));
-        Assert.False(d.IsDuplicate(b));
+        d.IsDuplicate(a).Should().BeFalse();
+        d.IsDuplicate(b).Should().BeFalse();
     }
 
     [Fact]
@@ -53,24 +66,10 @@ public sealed class RecentTickDeduplicatorTests
         var a = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
         var b = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs.AddMilliseconds(1));
 
-        Assert.False(d.IsDuplicate(a));
-        Assert.False(d.IsDuplicate(b));
+        d.IsDuplicate(a).Should().BeFalse();
+        d.IsDuplicate(b).Should().BeFalse();
     }
 
-    [Fact]
-    public void AfterDeduplicationWindowEntryExpires()
-    {
-        var fake = new FakeTimeProvider(FixedTs);
-        var d = Create(GiantWindow, fake);
-        var tick = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
-
-        Assert.False(d.IsDuplicate(tick));
-        Assert.True(d.IsDuplicate(tick));
-
-        fake.Advance(GiantWindow + TimeSpan.FromTicks(1));
-
-        Assert.False(d.IsDuplicate(tick));
-    }
 
     private static RecentTickDeduplicator Create(TimeSpan deduplicationWindow, TimeProvider? time = null)
     {
