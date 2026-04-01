@@ -24,16 +24,7 @@ public sealed class EfTickPersistence : ITickPersistence
         var now = DateTimeOffset.UtcNow;
         foreach (var item in ticks)
         {
-            db.Ticks.Add(new TickRecord
-            {
-                ExchangeId = item.Tick.ExchangeId,
-                Symbol = item.Tick.Symbol,
-                Price = item.Tick.Price,
-                Volume = item.Tick.Volume,
-                TimestampUtc = item.Tick.TimestampUtc,
-                IngestedAtUtc = now,
-                RawPayload = item.RawPayload,
-            });
+            db.Ticks.Add(new TickRecord(item.Tick, item.RawPayload) { IngestedAtUtc = now });
         }
 
         await db.SaveChangesAsync(cancellationToken);

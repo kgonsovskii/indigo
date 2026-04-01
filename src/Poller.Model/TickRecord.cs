@@ -2,19 +2,29 @@ namespace Poller.Model;
 
 public sealed class TickRecord
 {
-    public long Id { get; set; }
+    public TickRecord(NormalizedTick tick, string? rawPayload)
+    {
+        ExchangeId = tick.ExchangeId;
+        Symbol = tick.Symbol;
+        Price = tick.Price;
+        Volume = tick.Volume;
+        TimestampUtc = tick.TimestampUtc;
+        RawPayload = rawPayload;
+    }
 
-    public string ExchangeId { get; set; } = string.Empty;
+    public long Id { get; init; }
 
-    public string Symbol { get; set; } = string.Empty;
+    public string ExchangeId { get; init; }
 
-    public decimal Price { get; set; }
+    public string Symbol { get; init; }
 
-    public decimal Volume { get; set; }
+    public decimal Price { get; init; }
 
-    public DateTimeOffset TimestampUtc { get; set; }
+    public decimal Volume { get; init; }
 
-    public DateTimeOffset IngestedAtUtc { get; set; }
+    public DateTimeOffset TimestampUtc { get; init; }
 
-    public string? RawPayload { get; set; }
+    public DateTimeOffset IngestedAtUtc { get; init; }
+
+    public string? RawPayload { get; init; }
 }
