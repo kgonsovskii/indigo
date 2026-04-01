@@ -13,7 +13,6 @@ public sealed class FeedGrabber<TParser>
     where TParser : class, IFeedParser
 {
     private readonly TParser _parser;
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly IOptionsMonitor<FeedGrabberOptions> _grabberOptions;
     private readonly string _grabberOptionsName;
     private readonly ChannelWriter<TickToPersist> _writer;

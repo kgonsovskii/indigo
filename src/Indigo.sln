@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Storage", "Poller.St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Infrastructure.Tests", "Poller.Infrastructure.Tests\Poller.Infrastructure.Tests.csproj", "{CC99296A-EB12-4219-B03D-6A83971FD495}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feed.Parser.Tests", "Feed.Parser.Tests\Feed.Parser.Tests.csproj", "{665A6662-EE59-427B-A028-85EE8479B3E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -197,13 +199,25 @@ Global
 		{CC99296A-EB12-4219-B03D-6A83971FD495}.Release|x64.Build.0 = Release|Any CPU
 		{CC99296A-EB12-4219-B03D-6A83971FD495}.Release|x86.ActiveCfg = Release|Any CPU
 		{CC99296A-EB12-4219-B03D-6A83971FD495}.Release|x86.Build.0 = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|x64.Build.0 = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Debug|x86.Build.0 = Debug|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|x64.ActiveCfg = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|x64.Build.0 = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|x86.ActiveCfg = Release|Any CPU
+		{665A6662-EE59-427B-A028-85EE8479B3E6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{05FFC9A7-4DCF-4ACB-8AE8-14F4C9C0BACB} = {14053702-A4CB-493F-A1E6-EB285F239D04}
-		{4DAF6209-1B28-4E7D-BB4A-DF1452899667} = {14053702-A4CB-493F-A1E6-EB285F239D04}
 		{6AD64A95-4305-4D20-81D0-7D4D8DA428EB} = {14053702-A4CB-493F-A1E6-EB285F239D04}
+		{4DAF6209-1B28-4E7D-BB4A-DF1452899667} = {14053702-A4CB-493F-A1E6-EB285F239D04}
+		{05FFC9A7-4DCF-4ACB-8AE8-14F4C9C0BACB} = {14053702-A4CB-493F-A1E6-EB285F239D04}
 	EndGlobalSection
 EndGlobal

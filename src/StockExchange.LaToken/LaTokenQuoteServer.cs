@@ -1,10 +1,16 @@
 using System.Globalization;
+using System.Text.Json;
 using StockExchange.Base;
 
 namespace StockExchange.LaToken
 {
     internal sealed class LaTokenQuoteServer : QuoteWebSocketServerBase
     {
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNamingPolicy = null,
+        };
+
         protected override int ListenPort => 5051;
 
         public override string ExchangeLabel => "LaToken";
@@ -13,9 +19,16 @@ namespace StockExchange.LaToken
         {
             var price = (decimal)(random.NextDouble() * 90_000d + 1d);
             var vol = (decimal)(random.NextDouble() * 5d + 0.001d);
-            var t = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             var inv = CultureInfo.InvariantCulture;
-            return $"{{\"pair\":\"{symbol}\",\"price\":\"{price.ToString(inv)}\",\"volume\":\"{vol.ToString(inv)}\",\"timestamp\":{t}}}";
+            var wire = new LaTokenQuoteWire
+            {
+                Pair = symbol,
+                Price = price.ToString(inv),
+                Volume = vol.ToString(inv),
+                Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            };
+
+            return JsonSerializer.Serialize(wire, JsonOptions);
         }
     }
 }

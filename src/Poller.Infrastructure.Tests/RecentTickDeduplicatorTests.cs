@@ -17,7 +17,7 @@ public sealed class RecentTickDeduplicatorTests
     private static readonly DateTimeOffset FixedTs = new(2026, 4, 1, 12, 0, 0, TimeSpan.Zero);
 
     [Fact]
-    public void First_occurrence_is_not_duplicate()
+    public void FirstOccurrenceIsNotDuplicate()
     {
         var d = Create(GiantWindow);
         var tick = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
@@ -26,7 +26,7 @@ public sealed class RecentTickDeduplicatorTests
     }
 
     [Fact]
-    public void Identical_tick_twice_second_is_duplicate()
+    public void IdenticalTickTwiceSecondIsDuplicate()
     {
         var d = Create(GiantWindow);
         var tick = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
@@ -36,7 +36,7 @@ public sealed class RecentTickDeduplicatorTests
     }
 
     [Fact]
-    public void Different_exchange_not_duplicate()
+    public void DifferentExchangeNotDuplicate()
     {
         var d = Create(GiantWindow);
         var a = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
@@ -47,7 +47,7 @@ public sealed class RecentTickDeduplicatorTests
     }
 
     [Fact]
-    public void Different_timestamp_ms_not_duplicate()
+    public void DifferentTimestampMsNotDuplicate()
     {
         var d = Create(GiantWindow);
         var a = new NormalizedTick("LaToken", "BTC-USD", SamplePrice, SampleVolume, FixedTs);
@@ -58,7 +58,7 @@ public sealed class RecentTickDeduplicatorTests
     }
 
     [Fact]
-    public void After_deduplication_window_entry_expires()
+    public void AfterDeduplicationWindowEntryExpires()
     {
         var fake = new FakeTimeProvider(FixedTs);
         var d = Create(GiantWindow, fake);

@@ -1,10 +1,16 @@
 using System.Globalization;
+using System.Text.Json;
 using StockExchange.Base;
 
 namespace StockExchange.CoinBase
 {
     internal sealed class CoinBaseQuoteServer : QuoteWebSocketServerBase
     {
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            PropertyNamingPolicy = null,
+        };
+
         protected override int ListenPort => 5052;
 
         public override string ExchangeLabel => "CoinBase";
@@ -15,9 +21,17 @@ namespace StockExchange.CoinBase
         {
             var price = (decimal)(random.NextDouble() * 90_000d + 1d);
             var lastSize = (decimal)(random.NextDouble() * 5d + 0.001d);
-            var time = DateTimeOffset.UtcNow.ToString("o", CultureInfo.InvariantCulture);
             var inv = CultureInfo.InvariantCulture;
-            return $"{{\"type\":\"ticker\",\"product_id\":\"{symbol}\",\"price\":\"{price.ToString(inv)}\",\"last_size\":\"{lastSize.ToString(inv)}\",\"time\":\"{time}\"}}";
+            var wire = new CoinBaseTickerWire
+            {
+                Type = "ticker",
+                ProductId = symbol,
+                Price = price.ToString(inv),
+                LastSize = lastSize.ToString(inv),
+                Time = DateTimeOffset.UtcNow.ToString("o", inv),
+            };
+
+            return JsonSerializer.Serialize(wire, JsonOptions);
         }
     }
 }
