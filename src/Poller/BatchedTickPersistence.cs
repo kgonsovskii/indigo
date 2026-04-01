@@ -33,51 +33,70 @@ public sealed class BatchedTickPersistence : BackgroundService
         var batch = new List<TickToPersist>(opt.BatchSize);
         while (!stoppingToken.IsCancellationRequested)
         {
-            await _reader.WaitToReadAsync(stoppingToken);
-            batch.Clear();
-            var deadline = DateTime.UtcNow.Add(opt.BatchMaxWait);
-            while (batch.Count < opt.BatchSize && DateTime.UtcNow < deadline)
-            {
-                while (batch.Count < opt.BatchSize && _reader.TryRead(out var item))
-                {
-                    batch.Add(item);
-                }
-
-                if (batch.Count >= opt.BatchSize)
-                {
-                    break;
-                }
-
-                if (!_reader.TryPeek(out _))
-                {
-                    await Task.Delay(1, stoppingToken);
-                }
-            }
-
-            if (batch.Count == 0)
-            {
-                continue;
-            }
-
             try
             {
-                await _persistence.SaveBatchAsync(batch, stoppingToken);
-                _metrics.AddPersisted(batch.Count, CountByExchange(batch));
+                await ProcessBatchIterationAsync(opt, batch, stoppingToken);
+            }
+            catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
+            {
+                break;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Batch persistence failed size {Size}", batch.Count);
-                foreach (var item in batch)
+                _logger.LogError(ex, "Batched tick persistence iteration failed");
+            }
+        }
+    }
+
+    private async Task ProcessBatchIterationAsync(
+        IngestionOptions opt,
+        List<TickToPersist> batch,
+        CancellationToken stoppingToken)
+    {
+        await _reader.WaitToReadAsync(stoppingToken);
+        batch.Clear();
+        var deadline = DateTime.UtcNow.Add(opt.BatchMaxWait);
+        while (batch.Count < opt.BatchSize && DateTime.UtcNow < deadline)
+        {
+            while (batch.Count < opt.BatchSize && _reader.TryRead(out var item))
+            {
+                batch.Add(item);
+            }
+
+            if (batch.Count >= opt.BatchSize)
+            {
+                break;
+            }
+
+            if (!_reader.TryPeek(out _))
+            {
+                await Task.Delay(1, stoppingToken);
+            }
+        }
+
+        if (batch.Count == 0)
+        {
+            return;
+        }
+
+        try
+        {
+            await _persistence.SaveBatchAsync(batch, stoppingToken);
+            _metrics.AddPersisted(batch.Count, CountByExchange(batch));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Batch persistence failed size {Size}", batch.Count);
+            foreach (var item in batch)
+            {
+                try
                 {
-                    try
-                    {
-                        await _persistence.SaveBatchAsync([item], stoppingToken);
-                        _metrics.AddPersisted(1, SingleExchange(item.Tick.ExchangeId));
-                    }
-                    catch (Exception ex2)
-                    {
-                        _logger.LogError(ex2, "Single tick persistence failed {Exchange} {Symbol}", item.Tick.ExchangeId, item.Tick.Symbol);
-                    }
+                    await _persistence.SaveBatchAsync([item], stoppingToken);
+                    _metrics.AddPersisted(1, SingleExchange(item.Tick.ExchangeId));
+                }
+                catch (Exception ex2)
+                {
+                    _logger.LogError(ex2, "Single tick persistence failed {Exchange} {Symbol}", item.Tick.ExchangeId, item.Tick.Symbol);
                 }
             }
         }
