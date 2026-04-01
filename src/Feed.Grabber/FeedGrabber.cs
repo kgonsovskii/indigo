@@ -9,7 +9,6 @@ using Poller.Model;
 
 namespace Feed.Grabber;
 
-[DebuggerDisplay("{GrabberOptions.Name,nq} | {GrabberOptions.WebSocketUri,nq} | degree={GrabberOptions.DegreeOfParallelism}")]
 public sealed class FeedGrabber<TParser>
     where TParser : class, IFeedParser
 {
@@ -39,7 +38,6 @@ public sealed class FeedGrabber<TParser>
         _feedTelemetry = feedTelemetry;
     }
 
-    [DebuggerBrowsable(DebuggerBrowsableState.Collapsed)]
     private FeedGrabberOptions GrabberOptions => _grabberOptions.Get(_grabberOptionsName);
 
     public async Task RunAsync(int laneIndex, CancellationToken stoppingToken)
@@ -72,6 +70,7 @@ public sealed class FeedGrabber<TParser>
                         }
                         catch
                         {
+                            //nothing
                         }
                     }
 

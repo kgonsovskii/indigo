@@ -30,6 +30,7 @@ public static class ServiceCollectionExtensions
                 "Connection string 'Ticks' is not configured. Set ConnectionStrings:Ticks (see appsettings.json).");
         services.AddDbContextFactory<TickDbContext>(o => o.UseSqlite(PrepareSqliteTicksConnectionString(connectionString)));
 
+        services.AddSingleton(TimeProvider.System);
         services.AddSingleton<ITickPersistence, EfTickPersistence>();
         services.AddSingleton<ITickDeduplicator, RecentTickDeduplicator>();
         services.AddSingleton<PollerInstrumentation>();

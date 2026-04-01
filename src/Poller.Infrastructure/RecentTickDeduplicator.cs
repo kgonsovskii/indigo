@@ -7,18 +7,20 @@ namespace Poller.Infrastructure;
 public sealed class RecentTickDeduplicator : ITickDeduplicator
 {
     private readonly TimeSpan _window;
+    private readonly TimeProvider _time;
     private readonly Lock _gate = new();
     private readonly Dictionary<string, DateTimeOffset> _seen = new(StringComparer.Ordinal);
 
-    public RecentTickDeduplicator(IOptions<IngestionOptions> options)
+    public RecentTickDeduplicator(IOptions<IngestionOptions> options, TimeProvider time)
     {
         _window = options.Value.DeduplicationWindow;
+        _time = time;
     }
 
     public bool IsDuplicate(NormalizedTick tick)
     {
         var key = $"{tick.ExchangeId}-{tick.Symbol}-{tick.Price}-{tick.Volume}-{tick.TimestampUtc.ToUnixTimeMilliseconds()}";
-        var now = DateTimeOffset.UtcNow;
+        var now = _time.GetUtcNow();
         lock (_gate)
         {
             PruneLocked(now);
