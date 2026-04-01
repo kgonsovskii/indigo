@@ -17,3 +17,4 @@ C:\soft\indigo\src\Indigo.Infrastructure\obj\Debug\net9.0\refint\Indigo.Infrastr
 C:\soft\indigo\src\Indigo.Infrastructure\obj\Debug\net9.0\Indigo.Infrastructure.pdb
 C:\soft\indigo\src\Indigo.Infrastructure\obj\Debug\net9.0\Indigo.Infrastructure.genruntimeconfig.cache
 C:\soft\indigo\src\Indigo.Infrastructure\obj\Debug\net9.0\ref\Indigo.Infrastructure.dll
+C:\soft\indigo\src\Indigo.Infrastructure\obj\Debug\net9.0\Indigo.Infrastructure.sourcelink.json

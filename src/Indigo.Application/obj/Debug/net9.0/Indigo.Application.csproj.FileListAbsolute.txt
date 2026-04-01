@@ -13,3 +13,4 @@ C:\soft\indigo\src\Indigo.Application\obj\Debug\net9.0\Indigo.Application.dll
 C:\soft\indigo\src\Indigo.Application\obj\Debug\net9.0\refint\Indigo.Application.dll
 C:\soft\indigo\src\Indigo.Application\obj\Debug\net9.0\Indigo.Application.pdb
 C:\soft\indigo\src\Indigo.Application\obj\Debug\net9.0\ref\Indigo.Application.dll
+C:\soft\indigo\src\Indigo.Application\obj\Debug\net9.0\Indigo.Application.sourcelink.json

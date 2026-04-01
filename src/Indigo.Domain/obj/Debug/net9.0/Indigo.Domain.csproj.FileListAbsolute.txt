@@ -9,3 +9,4 @@ C:\soft\indigo\src\Indigo.Domain\obj\Debug\net9.0\Indigo.Domain.dll
 C:\soft\indigo\src\Indigo.Domain\obj\Debug\net9.0\refint\Indigo.Domain.dll
 C:\soft\indigo\src\Indigo.Domain\obj\Debug\net9.0\Indigo.Domain.pdb
 C:\soft\indigo\src\Indigo.Domain\obj\Debug\net9.0\ref\Indigo.Domain.dll
+C:\soft\indigo\src\Indigo.Domain\obj\Debug\net9.0\Indigo.Domain.sourcelink.json
