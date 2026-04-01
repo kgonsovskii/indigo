@@ -4,7 +4,7 @@
 
 **Как запустить**
 
-Mock-биржи (HTTP + WebSocket) и воркер, который к ним подключается и пишет тики в SQLite.
+Mock-биржи и воркер, который к ним подключается и пишет тики в SQLite.
 
 LaToken — порт **5051**, CoinBase — **5052**. WebSocket — путь **`/ws`**, как в `Poller/appsettings.json`.
 
