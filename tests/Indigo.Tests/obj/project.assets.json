@@ -979,19 +979,6 @@
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "CoinBaseParser/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "StockParser": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/CoinBaseParser.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/CoinBaseParser.dll": {}
-        }
-      },
       "Indigo.Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -1031,32 +1018,6 @@
         },
         "runtime": {
           "bin/placeholder/Indigo.Infrastructure.dll": {}
-        }
-      },
-      "LaTokenParser/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "StockParser": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/LaTokenParser.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/LaTokenParser.dll": {}
-        }
-      },
-      "StockParser/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "Indigo.Domain": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/StockParser.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/StockParser.dll": {}
         }
       }
     }
@@ -2371,11 +2332,6 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "CoinBaseParser/1.0.0": {
-      "type": "project",
-      "path": "../../Grabber/CoinBaseParser/CoinBaseParser.csproj",
-      "msbuildProject": "../../Grabber/CoinBaseParser/CoinBaseParser.csproj"
-    },
     "Indigo.Application/1.0.0": {
       "type": "project",
       "path": "../../src/Indigo.Application/Indigo.Application.csproj",
@@ -2390,25 +2346,13 @@
       "type": "project",
       "path": "../../src/Indigo.Infrastructure/Indigo.Infrastructure.csproj",
       "msbuildProject": "../../src/Indigo.Infrastructure/Indigo.Infrastructure.csproj"
-    },
-    "LaTokenParser/1.0.0": {
-      "type": "project",
-      "path": "../../Grabber/LaTokenParser/LaTokenParser.csproj",
-      "msbuildProject": "../../Grabber/LaTokenParser/LaTokenParser.csproj"
-    },
-    "StockParser/1.0.0": {
-      "type": "project",
-      "path": "../../Grabber/StockParser/StockParser.csproj",
-      "msbuildProject": "../../Grabber/StockParser/StockParser.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "CoinBaseParser >= 1.0.0",
       "Indigo.Application >= 1.0.0",
       "Indigo.Domain >= 1.0.0",
       "Indigo.Infrastructure >= 1.0.0",
-      "LaTokenParser >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Sqlite >= 9.0.0",
       "Microsoft.Extensions.Options >= 9.0.0",
       "Microsoft.NET.Test.Sdk >= 17.12.0",
@@ -2423,11 +2367,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\soft\\indigo\\tests\\Indigo.Tests\\Indigo.Tests.csproj",
+      "projectUniqueName": "c:\\soft\\indigo\\tests\\Indigo.Tests\\Indigo.Tests.csproj",
       "projectName": "Indigo.Tests",
-      "projectPath": "C:\\soft\\indigo\\tests\\Indigo.Tests\\Indigo.Tests.csproj",
+      "projectPath": "c:\\soft\\indigo\\tests\\Indigo.Tests\\Indigo.Tests.csproj",
       "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
-      "outputPath": "C:\\soft\\indigo\\tests\\Indigo.Tests\\obj\\",
+      "outputPath": "c:\\soft\\indigo\\tests\\Indigo.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2442,20 +2386,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\soft\\indigo\\Grabber\\CoinBaseParser\\CoinBaseParser.csproj": {
-              "projectPath": "C:\\soft\\indigo\\Grabber\\CoinBaseParser\\CoinBaseParser.csproj"
+            "c:\\soft\\indigo\\src\\Indigo.Application\\Indigo.Application.csproj": {
+              "projectPath": "c:\\soft\\indigo\\src\\Indigo.Application\\Indigo.Application.csproj"
             },
-            "C:\\soft\\indigo\\Grabber\\LaTokenParser\\LaTokenParser.csproj": {
-              "projectPath": "C:\\soft\\indigo\\Grabber\\LaTokenParser\\LaTokenParser.csproj"
+            "c:\\soft\\indigo\\src\\Indigo.Domain\\Indigo.Domain.csproj": {
+              "projectPath": "c:\\soft\\indigo\\src\\Indigo.Domain\\Indigo.Domain.csproj"
             },
-            "C:\\soft\\indigo\\src\\Indigo.Application\\Indigo.Application.csproj": {
-              "projectPath": "C:\\soft\\indigo\\src\\Indigo.Application\\Indigo.Application.csproj"
-            },
-            "C:\\soft\\indigo\\src\\Indigo.Domain\\Indigo.Domain.csproj": {
-              "projectPath": "C:\\soft\\indigo\\src\\Indigo.Domain\\Indigo.Domain.csproj"
-            },
-            "C:\\soft\\indigo\\src\\Indigo.Infrastructure\\Indigo.Infrastructure.csproj": {
-              "projectPath": "C:\\soft\\indigo\\src\\Indigo.Infrastructure\\Indigo.Infrastructure.csproj"
+            "c:\\soft\\indigo\\src\\Indigo.Infrastructure\\Indigo.Infrastructure.csproj": {
+              "projectPath": "c:\\soft\\indigo\\src\\Indigo.Infrastructure\\Indigo.Infrastructure.csproj"
             }
           }
         }

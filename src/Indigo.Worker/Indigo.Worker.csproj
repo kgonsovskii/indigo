@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.14" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.14" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Indigo.Infrastructure\Indigo.Infrastructure.csproj" />
     <ProjectReference Include="..\StockGrabber\StockGrabber.csproj" />
     <ProjectReference Include="..\StockParser.CoinBase\StockParser.CoinBase.csproj" />
     <ProjectReference Include="..\StockParser.LaToken\StockParser.LaToken.csproj" />

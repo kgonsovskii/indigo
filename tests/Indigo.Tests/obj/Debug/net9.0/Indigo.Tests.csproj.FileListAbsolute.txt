@@ -154,3 +154,4 @@ C:\soft\indigo\tests\Indigo.Tests\bin\Debug\net9.0\StockParser.dll
 C:\soft\indigo\tests\Indigo.Tests\bin\Debug\net9.0\CoinBaseParser.pdb
 C:\soft\indigo\tests\Indigo.Tests\bin\Debug\net9.0\LaTokenParser.pdb
 C:\soft\indigo\tests\Indigo.Tests\bin\Debug\net9.0\StockParser.pdb
+c:\soft\indigo\tests\Indigo.Tests\obj\Debug\net9.0\Indigo.Tests.sourcelink.json

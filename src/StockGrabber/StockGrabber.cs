@@ -4,18 +4,17 @@ using System.Threading.Channels;
 using Indigo.Application;
 using Indigo.Application.Abstractions;
 using Indigo.Application.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StockParser.Base;
 
 namespace StockGrabber;
 
-public sealed class StockGrabber<TParser> : BackgroundService
+public sealed class StockGrabber<TParser> : IStockGrabber
     where TParser : class, IStockParser
 {
     private readonly TParser _parser;
-    private readonly GrabberEndpointBinding _binding;
+    private readonly IOptions<TOptions> _grabberOptions;
     private readonly ChannelWriter<TickToPersist> _writer;
     private readonly ITickDeduplicator _deduplicator;
     private readonly IOptions<IngestionOptions> _ingestion;
@@ -23,33 +22,37 @@ public sealed class StockGrabber<TParser> : BackgroundService
 
     public StockGrabber(
         TParser parser,
-        GrabberEndpointBinding binding,
+        IOptions<TOptions> grabberOptions,
         ChannelWriter<TickToPersist> writer,
         ITickDeduplicator deduplicator,
         IOptions<IngestionOptions> ingestion,
-        ILogger<StockGrabber<TParser>> logger)
+        ILogger<StockGrabber<TParser, TOptions>> logger)
     {
         _parser = parser;
-        _binding = binding;
+        _grabberOptions = grabberOptions;
         _writer = writer;
         _deduplicator = deduplicator;
         _ingestion = ingestion;
         _logger = logger;
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    private TOptions GrabberOptions => _grabberOptions.Value;
+
+    public async Task RunAsync(CancellationToken stoppingToken)
     {
         var delayMs = Math.Max(1, _ingestion.Value.ReconnectInitialDelayMs);
         var maxDelay = Math.Max(delayMs, _ingestion.Value.ReconnectMaxDelayMs);
         while (!stoppingToken.IsCancellationRequested)
         {
+            var options = GrabberOptions;
+            var webSocketUri = new Uri(options.WebSocketUri);
             using var ws = new ClientWebSocket();
             try
             {
-                await ws.ConnectAsync(_binding.WebSocketUri, stoppingToken);
-                _logger.LogInformation("Grabber connected {Name} {Parser} {Uri}", _binding.Name, typeof(TParser).Name, _binding.WebSocketUri);
+                await ws.ConnectAsync(webSocketUri, stoppingToken);
+                _logger.LogInformation("Grabber connected {Name} {Parser} {Uri}", options.Name, typeof(TParser).Name, webSocketUri);
                 delayMs = Math.Max(1, _ingestion.Value.ReconnectInitialDelayMs);
-                await ReceiveLoopAsync(ws, stoppingToken);
+                await ReceiveLoopAsync(ws, options.Name, stoppingToken);
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
             {
@@ -57,7 +60,7 @@ public sealed class StockGrabber<TParser> : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(ex, "Grabber error {Name} reconnect in {DelayMs}ms", _binding.Name, delayMs);
+                _logger.LogWarning(ex, "Grabber error {Name} reconnect in {DelayMs}ms", GrabberOptions.Name, delayMs);
             }
             finally
             {
@@ -73,7 +76,7 @@ public sealed class StockGrabber<TParser> : BackgroundService
                 }
             }
 
-            _logger.LogInformation("Grabber disconnected {Name}", _binding.Name);
+            _logger.LogInformation("Grabber disconnected {Name}", GrabberOptions.Name);
             try
             {
                 await Task.Delay(delayMs, stoppingToken);
@@ -87,7 +90,7 @@ public sealed class StockGrabber<TParser> : BackgroundService
         }
     }
 
-    private async Task ReceiveLoopAsync(ClientWebSocket ws, CancellationToken ct)
+    private async Task ReceiveLoopAsync(ClientWebSocket ws, string feedName, CancellationToken ct)
     {
         var buffer = new byte[65536];
         await using var ms = new MemoryStream(8192);
@@ -117,7 +120,7 @@ public sealed class StockGrabber<TParser> : BackgroundService
 
             var text = Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Length);
             ms.SetLength(0);
-            if (!_parser.TryParse(text, _binding.Name, out var tick) || tick is null)
+            if (!_parser.TryParse(text, feedName, out var tick) || tick is null)
             {
                 continue;
             }
