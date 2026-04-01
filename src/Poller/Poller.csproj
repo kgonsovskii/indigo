@@ -3,7 +3,6 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-Indigo.Worker-a7258e42-b3f8-40dc-a2f3-0b982ba87be0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

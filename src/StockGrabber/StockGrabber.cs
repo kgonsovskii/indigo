@@ -10,11 +10,16 @@ using StockParser.Base;
 
 namespace StockGrabber;
 
+public interface IStockGrabber
+{
+    Task RunAsync(CancellationToken cancellationToken);
+}
+
 public sealed class StockGrabber<TParser> : IStockGrabber
     where TParser : class, IStockParser
 {
     private readonly TParser _parser;
-    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptionsMonitor;
+    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptions;
     private readonly string _grabberOptionsName;
     private readonly ChannelWriter<TickToPersist> _writer;
     private readonly ITickDeduplicator _deduplicator;
@@ -30,7 +35,7 @@ public sealed class StockGrabber<TParser> : IStockGrabber
         ILogger<StockGrabber<TParser>> logger)
     {
         _parser = parser;
-        _grabberOptionsMonitor = grabberOptions;
+        _grabberOptions = grabberOptions;
         _grabberOptionsName = TParser.ConfigurationSectionKey;
         _writer = writer;
         _deduplicator = deduplicator;
@@ -38,7 +43,7 @@ public sealed class StockGrabber<TParser> : IStockGrabber
         _logger = logger;
     }
 
-    private StockGrabberOptions GrabberOptions => _grabberOptionsMonitor.Get(_grabberOptionsName);
+    private StockGrabberOptions GrabberOptions => _grabberOptions.Get(_grabberOptionsName);
 
     public async Task RunAsync(CancellationToken stoppingToken)
     {
@@ -74,6 +79,7 @@ public sealed class StockGrabber<TParser> : IStockGrabber
                     }
                     catch
                     {
+                        //nothing
                     }
                 }
             }

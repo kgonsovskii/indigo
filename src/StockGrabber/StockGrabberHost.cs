@@ -10,19 +10,19 @@ public sealed class StockGrabberHost<TParser> : BackgroundService
     where TParser : class, IStockParser
 {
     private readonly StockGrabber<TParser> _grabber;
-    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptionsMonitor;
+    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptions;
     private readonly string _grabberOptionsName;
     private readonly IOptions<IngestionOptions> _ingestion;
     private readonly ILogger<StockGrabberHost<TParser>> _logger;
 
     public StockGrabberHost(
         StockGrabber<TParser> grabber,
-        IOptionsMonitor<StockGrabberOptions> grabberOptionsMonitor,
+        IOptionsMonitor<StockGrabberOptions> grabberOptions,
         IOptions<IngestionOptions> ingestion,
         ILogger<StockGrabberHost<TParser>> logger)
     {
         _grabber = grabber;
-        _grabberOptionsMonitor = grabberOptionsMonitor;
+        _grabberOptions = grabberOptions;
         _grabberOptionsName = TParser.ConfigurationSectionKey;
         _ingestion = ingestion;
         _logger = logger;
@@ -30,7 +30,7 @@ public sealed class StockGrabberHost<TParser> : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var opt = _grabberOptionsMonitor.Get(_grabberOptionsName);
+        var opt = _grabberOptions.Get(_grabberOptionsName);
         var degree = Math.Max(1, opt.DegreeOfParallelism);
         var feedName = opt.Name;
         _logger.LogInformation("Grabber host starting {Feed} lanes {Lanes}", feedName, degree);
