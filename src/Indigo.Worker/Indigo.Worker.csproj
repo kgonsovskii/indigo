@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-Indigo.Worker-a7258e42-b3f8-40dc-a2f3-0b982ba87be0</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockGrabber\StockGrabber.csproj" />
+    <ProjectReference Include="..\StockParser.CoinBase\StockParser.CoinBase.csproj" />
+    <ProjectReference Include="..\StockParser.LaToken\StockParser.LaToken.csproj" />
+  </ItemGroup>
+</Project>

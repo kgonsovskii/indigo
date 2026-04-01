@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "UI6IeXcnHW4=",
+  "success": true,
+  "projectFilePath": "C:\\soft\\indigo\\src\\Indigo.Application\\Indigo.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\k\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.5\\microsoft.extensions.dependencyinjection.abstractions.10.0.5.nupkg.sha512",
+    "C:\\Users\\k\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.14\\microsoft.netcore.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\k\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.14\\microsoft.windowsdesktop.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\k\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.14\\microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512"
+  ],
+  "logs": []
+}

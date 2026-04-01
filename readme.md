@@ -1,0 +1,1 @@
+Konstantin Gonsovskii. Test for Indigo Software
