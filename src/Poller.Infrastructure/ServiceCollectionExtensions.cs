@@ -32,7 +32,9 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<ITickPersistence, EfTickPersistence>();
         services.AddSingleton<ITickDeduplicator, RecentTickDeduplicator>();
-        services.AddSingleton<ITickMetrics, TickMetrics>();
+        services.AddSingleton<PollerInstrumentation>();
+        services.AddSingleton<ITickMetrics>(sp => sp.GetRequiredService<PollerInstrumentation>());
+        services.AddSingleton<IFeedConnectionTelemetry>(sp => sp.GetRequiredService<PollerInstrumentation>());
 
         return services;
     }

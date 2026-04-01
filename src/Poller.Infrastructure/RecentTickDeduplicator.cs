@@ -12,7 +12,7 @@ public sealed class RecentTickDeduplicator : ITickDeduplicator
 
     public RecentTickDeduplicator(IOptions<IngestionOptions> options)
     {
-        _window = TimeSpan.FromMilliseconds(Math.Clamp(options.Value.DeduplicationWindowMs, 50, 60_000));
+        _window = options.Value.DeduplicationWindow;
     }
 
     public bool IsDuplicate(NormalizedTick tick)

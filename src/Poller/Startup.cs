@@ -14,7 +14,7 @@ internal static class Startup
 
         services.AddHostedService<BatchedTickPersistence>();
 
-        services.AddHostedService<TickMetricsLogging>();
+        services.AddHostedService<MetricsLogging>();
 
         services.AddPollerServices(configuration);
 

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Feed.Parser.Base;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,22 +10,24 @@ public sealed class FeedGrabberHost<TParser> : BackgroundService
     where TParser : class, IFeedParser
 {
     private readonly FeedGrabber<TParser> _grabber;
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     private readonly IOptionsMonitor<FeedGrabberOptions> _grabberOptions;
     private readonly string _grabberOptionsName;
     private readonly IOptions<IngestionOptions> _ingestion;
+    private readonly IFeedConnectionTelemetry _feedTelemetry;
     private readonly ILogger<FeedGrabberHost<TParser>> _logger;
 
     public FeedGrabberHost(
         FeedGrabber<TParser> grabber,
         IOptionsMonitor<FeedGrabberOptions> grabberOptions,
         IOptions<IngestionOptions> ingestion,
+        IFeedConnectionTelemetry feedTelemetry,
         ILogger<FeedGrabberHost<TParser>> logger)
     {
         _grabber = grabber;
         _grabberOptions = grabberOptions;
         _grabberOptionsName = TParser.ConfigurationSectionKey;
         _ingestion = ingestion;
+        _feedTelemetry = feedTelemetry;
         _logger = logger;
     }
 
@@ -59,7 +60,7 @@ public sealed class FeedGrabberHost<TParser> : BackgroundService
         {
             try
             {
-                await _grabber.RunAsync(stoppingToken);
+                await _grabber.RunAsync(laneIndex, stoppingToken);
                 return;
             }
             catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
@@ -68,15 +69,11 @@ public sealed class FeedGrabberHost<TParser> : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogWarning(
-                    "Grabber lane stopped {Feed} lane {Lane}, restarting after delay: {Message}",
-                    feedName,
-                    laneIndex,
-                    ex.Message);
-                var delayMs = Math.Max(1, _ingestion.Value.ReconnectInitialDelayMs);
+                var delay = _ingestion.Value.ReconnectDelay;
+                _feedTelemetry.RecordLaneCrashed(feedName, laneIndex, ex, delay);
                 try
                 {
-                    await Task.Delay(delayMs, stoppingToken);
+                    await Task.Delay(delay, stoppingToken);
                 }
                 catch (OperationCanceledException) when (stoppingToken.IsCancellationRequested)
                 {

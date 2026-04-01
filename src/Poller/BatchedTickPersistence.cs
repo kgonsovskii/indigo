@@ -35,7 +35,7 @@ public sealed class BatchedTickPersistence : BackgroundService
         {
             await _reader.WaitToReadAsync(stoppingToken);
             batch.Clear();
-            var deadline = DateTime.UtcNow.AddMilliseconds(Math.Max(1, opt.BatchMaxWaitMs));
+            var deadline = DateTime.UtcNow.Add(opt.BatchMaxWait);
             while (batch.Count < opt.BatchSize && DateTime.UtcNow < deadline)
             {
                 while (batch.Count < opt.BatchSize && _reader.TryRead(out var item))
@@ -62,7 +62,7 @@ public sealed class BatchedTickPersistence : BackgroundService
             try
             {
                 await _persistence.SaveBatchAsync(batch, stoppingToken);
-                _metrics.AddPersisted(batch.Count);
+                _metrics.AddPersisted(batch.Count, CountByExchange(batch));
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ public sealed class BatchedTickPersistence : BackgroundService
                     try
                     {
                         await _persistence.SaveBatchAsync([item], stoppingToken);
-                        _metrics.AddPersisted(1);
+                        _metrics.AddPersisted(1, SingleExchange(item.Tick.ExchangeId));
                     }
                     catch (Exception ex2)
                     {
@@ -82,4 +82,20 @@ public sealed class BatchedTickPersistence : BackgroundService
             }
         }
     }
+
+    private static Dictionary<string, int> CountByExchange(List<TickToPersist> batch)
+    {
+        var d = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (var item in batch)
+        {
+            var ex = item.Tick.ExchangeId;
+            d.TryGetValue(ex, out var c);
+            d[ex] = c + 1;
+        }
+
+        return d;
+    }
+
+    private static Dictionary<string, int> SingleExchange(string exchangeId) =>
+        new(StringComparer.Ordinal) { [exchangeId] = 1 };
 }

@@ -6,11 +6,13 @@ public sealed class IngestionOptions
 
     public int BatchSize { get; set; } = 100;
 
-    public int BatchMaxWaitMs { get; set; } = 200;
+    public TimeSpan BatchMaxWait { get; set; } = TimeSpan.FromMilliseconds(200);
 
-    public int DeduplicationWindowMs { get; set; } = 750;
+    public TimeSpan DeduplicationWindow { get; set; } = TimeSpan.FromMilliseconds(750);
 
-    public int ReconnectInitialDelayMs { get; set; } = 500;
+    public TimeSpan ReconnectDelay { get; set; } = TimeSpan.FromSeconds(3);
 
-    public int ReconnectMaxDelayMs { get; set; } = 30_000;
+    public TimeSpan MetricsRateWindow { get; set; } = TimeSpan.FromSeconds(5);
+
+    public TimeSpan MetricsLogInterval { get; set; } = TimeSpan.FromSeconds(3);
 }
