@@ -13,7 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Poller.Application\Poller.Application.csproj" />
     <ProjectReference Include="..\Poller.Model\Poller.Model.csproj" />
-    <ProjectReference Include="..\Poller.Storage\Poller.Storage.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Poller.Application;
-using Poller.Application.Abstractions;
+using Poller.Model;
 
-namespace Poller.Infrastructure.Persistence;
+namespace Poller.Storage;
 
 public sealed class EfTickPersistence : ITickPersistence
 {

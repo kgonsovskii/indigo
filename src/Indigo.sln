@@ -19,13 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feed.Parser.Base", "Feed.Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feed.Grabber", "Feed.Grabber\Feed.Grabber.csproj", "{48359EAF-F14C-4919-B653-A2F5580A365D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Domain", "Poller.Domain\Poller.Domain.csproj", "{CD361B8B-AA3B-4F6B-B02E-6A17E57FE981}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Model", "Poller.Model\Poller.Model.csproj", "{CD361B8B-AA3B-4F6B-B02E-6A17E57FE981}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Application", "Poller.Application\Poller.Application.csproj", "{A5CD1981-6EFA-4D29-9C9B-17E045714CEA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller", "Poller\Poller.csproj", "{0BBF656A-80D2-4C2C-9FE2-055EDC71F53E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Infrastructure", "Poller.Infrastructure\Poller.Infrastructure.csproj", "{EBA344C9-4B31-409E-B8C4-D9CDB1C8334C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poller.Storage", "Poller.Storage\Poller.Storage.csproj", "{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +171,18 @@ Global
 		{EBA344C9-4B31-409E-B8C4-D9CDB1C8334C}.Release|x64.Build.0 = Release|Any CPU
 		{EBA344C9-4B31-409E-B8C4-D9CDB1C8334C}.Release|x86.ActiveCfg = Release|Any CPU
 		{EBA344C9-4B31-409E-B8C4-D9CDB1C8334C}.Release|x86.Build.0 = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Debug|x86.Build.0 = Debug|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|x64.Build.0 = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|x86.ActiveCfg = Release|Any CPU
+		{30CBAFD6-5E36-4273-8536-5A22BDB7A9CA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

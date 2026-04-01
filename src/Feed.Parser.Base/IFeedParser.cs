@@ -1,6 +1,6 @@
-using Poller.Domain;
+using Poller.Model;
 
-namespace StockParser.Base;
+namespace Feed.Parser.Base;
 
 public interface IFeedParser
 {

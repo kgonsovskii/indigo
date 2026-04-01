@@ -1,27 +1,24 @@
 using System.Threading.Channels;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Poller.Application;
-using Poller.Application.Abstractions;
-using Poller.Application.Configuration;
+using Poller.Model;
 
-namespace Poller.Infrastructure.Hosting;
+namespace Poller;
 
-public sealed class BatchedTickPersistenceHostedService : BackgroundService
+public sealed class BatchedTickPersistence : BackgroundService
 {
     private readonly ChannelReader<TickToPersist> _reader;
     private readonly ITickPersistence _persistence;
     private readonly ITickMetrics _metrics;
     private readonly IOptions<IngestionOptions> _options;
-    private readonly ILogger<BatchedTickPersistenceHostedService> _logger;
+    private readonly ILogger<BatchedTickPersistence> _logger;
 
-    public BatchedTickPersistenceHostedService(
+    public BatchedTickPersistence(
         ChannelReader<TickToPersist> reader,
         ITickPersistence persistence,
         ITickMetrics metrics,
         IOptions<IngestionOptions> options,
-        ILogger<BatchedTickPersistenceHostedService> logger)
+        ILogger<BatchedTickPersistence> logger)
     {
         _reader = reader;
         _persistence = persistence;
@@ -74,7 +71,7 @@ public sealed class BatchedTickPersistenceHostedService : BackgroundService
                 {
                     try
                     {
-                        await _persistence.SaveBatchAsync(new[] { item }, stoppingToken);
+                        await _persistence.SaveBatchAsync([item], stoppingToken);
                         _metrics.AddPersisted(1);
                     }
                     catch (Exception ex2)

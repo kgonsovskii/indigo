@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text.Json;
-using Poller.Domain;
-using StockParser.Base;
+using Feed.Parser.Base;
+using Poller.Model;
 
 namespace Feed.Parser.LaToken;
 

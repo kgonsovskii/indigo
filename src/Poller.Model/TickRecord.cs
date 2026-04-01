@@ -1,4 +1,4 @@
-namespace Poller.Infrastructure.Persistence;
+namespace Poller.Model;
 
 public sealed class TickRecord
 {

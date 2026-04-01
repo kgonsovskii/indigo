@@ -1,14 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Poller.Infrastructure.Persistence;
+using Poller.Storage;
 
-namespace Poller.Infrastructure.Hosting;
+namespace Poller;
 
-public sealed class DatabaseInitializationHostedService : IHostedService
+public sealed class DatabaseInitialization : IHostedService
 {
     private readonly IDbContextFactory<TickDbContext> _factory;
 
-    public DatabaseInitializationHostedService(IDbContextFactory<TickDbContext> factory)
+    public DatabaseInitialization(IDbContextFactory<TickDbContext> factory)
     {
         _factory = factory;
     }

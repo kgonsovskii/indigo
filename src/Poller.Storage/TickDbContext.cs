@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Poller.Model;
 
-namespace Poller.Infrastructure.Persistence;
+namespace Poller.Storage;
 
 public sealed class TickDbContext : DbContext
 {

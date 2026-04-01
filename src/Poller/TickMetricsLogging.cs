@@ -1,15 +1,13 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Poller.Application.Abstractions;
+using Poller.Application;
 
-namespace Poller.Infrastructure.Hosting;
+namespace Poller;
 
-public sealed class TickMetricsLoggingHostedService : BackgroundService
+public sealed class TickMetricsLogging : BackgroundService
 {
     private readonly ITickMetrics _metrics;
-    private readonly ILogger<TickMetricsLoggingHostedService> _logger;
+    private readonly ILogger<TickMetricsLogging> _logger;
 
-    public TickMetricsLoggingHostedService(ITickMetrics metrics, ILogger<TickMetricsLoggingHostedService> logger)
+    public TickMetricsLogging(ITickMetrics metrics, ILogger<TickMetricsLogging> logger)
     {
         _metrics = metrics;
         _logger = logger;

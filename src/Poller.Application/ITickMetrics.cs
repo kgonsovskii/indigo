@@ -1,4 +1,4 @@
-namespace Poller.Application.Abstractions;
+namespace Poller.Application;
 
 public interface ITickMetrics
 {

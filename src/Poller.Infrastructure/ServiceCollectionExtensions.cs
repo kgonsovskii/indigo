@@ -1,19 +1,17 @@
 using System.Threading.Channels;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Poller.Application;
-using Poller.Application.Abstractions;
-using Poller.Application.Configuration;
-using Poller.Infrastructure.Hosting;
-using Poller.Infrastructure.Persistence;
-using Poller.Infrastructure.Processing;
+using Poller.Model;
+using Poller.Storage;
 
-namespace Poller.Infrastructure.DependencyInjection;
+namespace Poller.Infrastructure;
 
-public static class IndigoServiceCollectionExtensions
+public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddIndigoMarketData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPollerServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<IngestionOptions>(configuration.GetSection(IngestionOptions.SectionName));
 
@@ -30,16 +28,36 @@ public static class IndigoServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("Ticks")
             ?? throw new InvalidOperationException(
                 "Connection string 'Ticks' is not configured. Set ConnectionStrings:Ticks (see appsettings.json).");
-        services.AddDbContextFactory<TickDbContext>(o => o.UseSqlite(connectionString));
+        services.AddDbContextFactory<TickDbContext>(o => o.UseSqlite(PrepareSqliteTicksConnectionString(connectionString)));
 
         services.AddSingleton<ITickPersistence, EfTickPersistence>();
         services.AddSingleton<ITickDeduplicator, RecentTickDeduplicator>();
         services.AddSingleton<ITickMetrics, TickMetrics>();
 
-        services.AddHostedService<DatabaseInitializationHostedService>();
-        services.AddHostedService<BatchedTickPersistenceHostedService>();
-        services.AddHostedService<TickMetricsLoggingHostedService>();
-
         return services;
+    }
+
+    private static string PrepareSqliteTicksConnectionString(string connectionString)
+    {
+        var builder = new SqliteConnectionStringBuilder(connectionString);
+        var path = builder.DataSource;
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            return connectionString;
+        }
+
+        if (!Path.IsPathRooted(path))
+        {
+            path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, path));
+            builder.DataSource = path;
+        }
+
+        var directory = Path.GetDirectoryName(path);
+        if (!string.IsNullOrEmpty(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        return builder.ConnectionString;
     }
 }

@@ -1,14 +1,13 @@
 using Microsoft.Extensions.Options;
-using Poller.Application.Abstractions;
-using Poller.Application.Configuration;
-using Poller.Domain;
+using Poller.Application;
+using Poller.Model;
 
-namespace Poller.Infrastructure.Processing;
+namespace Poller.Infrastructure;
 
 public sealed class RecentTickDeduplicator : ITickDeduplicator
 {
     private readonly TimeSpan _window;
-    private readonly object _gate = new();
+    private readonly Lock _gate = new();
     private readonly Dictionary<string, DateTimeOffset> _seen = new(StringComparer.Ordinal);
 
     public RecentTickDeduplicator(IOptions<IngestionOptions> options)
@@ -18,18 +17,12 @@ public sealed class RecentTickDeduplicator : ITickDeduplicator
 
     public bool IsDuplicate(NormalizedTick tick)
     {
-        var key = $"{tick.ExchangeId}\u001f{tick.Symbol}\u001f{tick.Price}\u001f{tick.Volume}\u001f{tick.TimestampUtc.ToUnixTimeMilliseconds()}";
+        var key = $"{tick.ExchangeId}-{tick.Symbol}-{tick.Price}-{tick.Volume}-{tick.TimestampUtc.ToUnixTimeMilliseconds()}";
         var now = DateTimeOffset.UtcNow;
         lock (_gate)
         {
             PruneLocked(now);
-            if (_seen.ContainsKey(key))
-            {
-                return true;
-            }
-
-            _seen[key] = now;
-            return false;
+            return !_seen.TryAdd(key, now);
         }
     }
 

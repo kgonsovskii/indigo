@@ -1,11 +1,10 @@
-namespace StockExchange.LaToken
+using StockExchange.Base;
+
+namespace StockExchange.LaToken;
+
+internal sealed class Program : ProgramBase
 {
-    internal static class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var server = new LaTokenQuoteServer();
-            await server.RunAsync(args);
-        }
-    }
+    public static Task Main(string[] args) => RunAsync<Program>(args);
+
+    protected override QuoteWebSocketServerBase CreateServer() => new LaTokenQuoteServer();
 }

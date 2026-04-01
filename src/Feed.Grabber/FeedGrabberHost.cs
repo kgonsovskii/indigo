@@ -1,9 +1,9 @@
 using System.Diagnostics;
+using Feed.Parser.Base;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Poller.Application.Configuration;
-using StockParser.Base;
+using Poller.Application;
 
 namespace Feed.Grabber;
 

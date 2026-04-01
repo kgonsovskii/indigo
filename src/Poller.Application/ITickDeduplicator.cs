@@ -1,6 +1,6 @@
-using Poller.Domain;
+using Poller.Model;
 
-namespace Poller.Application.Abstractions;
+namespace Poller.Application;
 
 public interface ITickDeduplicator
 {

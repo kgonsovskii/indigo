@@ -1,4 +1,6 @@
-namespace Poller.Application.Abstractions;
+using Poller.Model;
+
+namespace Poller.Application;
 
 public interface ITickPersistence
 {

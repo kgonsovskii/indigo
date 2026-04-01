@@ -2,12 +2,11 @@ using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Channels;
+using Feed.Parser.Base;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Poller.Application;
-using Poller.Application.Abstractions;
-using Poller.Application.Configuration;
-using StockParser.Base;
+using Poller.Model;
 
 namespace Feed.Grabber;
 

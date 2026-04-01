@@ -1,11 +1,10 @@
-namespace StockExchange.CoinBase
+using StockExchange.Base;
+
+namespace StockExchange.CoinBase;
+
+internal sealed class Program : ProgramBase
 {
-    internal static class Program
-    {
-        public static async Task Main(string[] args)
-        {
-            var server = new CoinBaseQuoteServer();
-            await server.RunAsync(args);
-        }
-    }
+    public static Task Main(string[] args) => RunAsync<Program>(args);
+
+    protected override QuoteWebSocketServerBase CreateServer() => new CoinBaseQuoteServer();
 }

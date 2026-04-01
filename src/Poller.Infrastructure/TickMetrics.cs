@@ -1,6 +1,6 @@
-using Poller.Application.Abstractions;
+using Poller.Application;
 
-namespace Poller.Infrastructure.Processing;
+namespace Poller.Infrastructure;
 
 public sealed class TickMetrics : ITickMetrics
 {

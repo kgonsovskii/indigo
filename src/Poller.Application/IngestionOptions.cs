@@ -1,4 +1,4 @@
-namespace Poller.Application.Configuration;
+namespace Poller.Application;
 
 public sealed class IngestionOptions
 {
