@@ -7,7 +7,7 @@ namespace Indigo.Worker
 {
     public static class GrabbersRegistration
     {
-        public static IServiceCollection AddConfiguredStockGrabbers(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddStockGrabbers(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<LaTokenParser>();
             services.AddSingleton<CoinBaseParser>();
@@ -26,12 +26,12 @@ namespace Indigo.Worker
                     WebSocketUri = new Uri(g.WebSocketUri),
                 };
 
-                if (string.Equals(g.Parser, "LaToken", StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(g.Name, "LaToken", StringComparison.OrdinalIgnoreCase))
                 {
                     services.AddSingleton<IHostedService>(sp =>
                         ActivatorUtilities.CreateInstance<StockGrabber<LaTokenParser>>(sp, binding));
                 }
-                else if (string.Equals(g.Parser, "CoinBase", StringComparison.OrdinalIgnoreCase))
+                else if (string.Equals(g.Name, "CoinBase", StringComparison.OrdinalIgnoreCase))
                 {
                     services.AddSingleton<IHostedService>(sp =>
                         ActivatorUtilities.CreateInstance<StockGrabber<CoinBaseParser>>(sp, binding));
