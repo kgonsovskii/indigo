@@ -675,6 +675,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
           "StockParser.Base": "1.0.0"
         },
         "compile": {

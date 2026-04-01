@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Indigo.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Indigo.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Indigo.Domain.dll": {}
+        }
+      },
+      "StockParser/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Indigo.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/StockParser.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/StockParser.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Indigo.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../src/Indigo.Domain/Indigo.Domain.csproj",
+      "msbuildProject": "../../src/Indigo.Domain/Indigo.Domain.csproj"
+    },
+    "StockParser/1.0.0": {
+      "type": "project",
+      "path": "../StockParser/StockParser.csproj",
+      "msbuildProject": "../StockParser/StockParser.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "StockParser >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\k\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\soft\\indigo\\Grabber\\LaTokenParser\\LaTokenParser.csproj",
+      "projectName": "LaTokenParser",
+      "projectPath": "C:\\soft\\indigo\\Grabber\\LaTokenParser\\LaTokenParser.csproj",
+      "packagesPath": "C:\\Users\\k\\.nuget\\packages\\",
+      "outputPath": "C:\\soft\\indigo\\Grabber\\LaTokenParser\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\k\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "C:\\soft\\indigo\\Grabber\\StockParser\\StockParser.csproj": {
+              "projectPath": "C:\\soft\\indigo\\Grabber\\StockParser\\StockParser.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

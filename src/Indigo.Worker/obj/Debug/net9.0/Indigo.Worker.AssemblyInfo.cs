@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Indigo.Worker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14de45fa5e20d1d916ab769e4dcf0769b8bdab48")]
 [assembly: System.Reflection.AssemblyProductAttribute("Indigo.Worker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Indigo.Worker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
