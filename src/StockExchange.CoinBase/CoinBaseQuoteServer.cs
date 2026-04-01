@@ -5,7 +5,7 @@ namespace StockExchange.CoinBase
 {
     internal sealed class CoinBaseQuoteServer : QuoteWebSocketServerBase
     {
-        public override int ListenPort => 5052;
+        protected override int ListenPort => 5052;
 
         public override string ExchangeLabel => "CoinBase";
 

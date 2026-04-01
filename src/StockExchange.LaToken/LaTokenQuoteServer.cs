@@ -5,7 +5,7 @@ namespace StockExchange.LaToken
 {
     internal sealed class LaTokenQuoteServer : QuoteWebSocketServerBase
     {
-        public override int ListenPort => 5051;
+        protected override int ListenPort => 5051;
 
         public override string ExchangeLabel => "LaToken";
 

@@ -1,12 +1,14 @@
 using System.Globalization;
 using System.Text.Json;
-using Indigo.Domain;
+using Poller.Domain;
 using StockParser.Base;
 
 namespace StockParser.LaToken;
 
 public sealed class LaTokenParser : IStockParser
 {
+    public static string ConfigurationSectionKey => "LaToken";
+
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public bool TryParse(string rawPayload, string feedId, out NormalizedTick? tick)

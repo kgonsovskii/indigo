@@ -1,12 +1,14 @@
 using System.Globalization;
 using System.Text.Json;
-using Indigo.Domain;
+using Poller.Domain;
 using StockParser.Base;
 
 namespace StockParser.CoinBase;
 
 public sealed class CoinBaseParser : IStockParser
 {
+    public static string ConfigurationSectionKey => "CoinBase";
+
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
     public bool TryParse(string rawPayload, string feedId, out NormalizedTick? tick)

@@ -1,11 +1,11 @@
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Channels;
-using Indigo.Application;
-using Indigo.Application.Abstractions;
-using Indigo.Application.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Poller.Application;
+using Poller.Application.Abstractions;
+using Poller.Application.Configuration;
 using StockParser.Base;
 
 namespace StockGrabber;
@@ -14,7 +14,8 @@ public sealed class StockGrabber<TParser> : IStockGrabber
     where TParser : class, IStockParser
 {
     private readonly TParser _parser;
-    private readonly IOptions<TOptions> _grabberOptions;
+    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptionsMonitor;
+    private readonly string _grabberOptionsName;
     private readonly ChannelWriter<TickToPersist> _writer;
     private readonly ITickDeduplicator _deduplicator;
     private readonly IOptions<IngestionOptions> _ingestion;
@@ -22,21 +23,22 @@ public sealed class StockGrabber<TParser> : IStockGrabber
 
     public StockGrabber(
         TParser parser,
-        IOptions<TOptions> grabberOptions,
+        IOptionsMonitor<StockGrabberOptions> grabberOptions,
         ChannelWriter<TickToPersist> writer,
         ITickDeduplicator deduplicator,
         IOptions<IngestionOptions> ingestion,
-        ILogger<StockGrabber<TParser, TOptions>> logger)
+        ILogger<StockGrabber<TParser>> logger)
     {
         _parser = parser;
-        _grabberOptions = grabberOptions;
+        _grabberOptionsMonitor = grabberOptions;
+        _grabberOptionsName = TParser.ConfigurationSectionKey;
         _writer = writer;
         _deduplicator = deduplicator;
         _ingestion = ingestion;
         _logger = logger;
     }
 
-    private TOptions GrabberOptions => _grabberOptions.Value;
+    private StockGrabberOptions GrabberOptions => _grabberOptionsMonitor.Get(_grabberOptionsName);
 
     public async Task RunAsync(CancellationToken stoppingToken)
     {

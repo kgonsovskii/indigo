@@ -7,9 +7,9 @@ namespace StockExchange.Base.Hosting
 {
     public abstract class QuoteWebSocketServerBase
     {
-        public abstract int ListenPort { get; }
+        protected abstract int ListenPort { get; }
 
-        public virtual string WebSocketPath => "/ws";
+        protected virtual string WebSocketPath => "/ws";
 
         public abstract string ExchangeLabel { get; }
 

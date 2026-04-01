@@ -1,7 +1,7 @@
-using Indigo.Application.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Poller.Application.Configuration;
 using StockParser.Base;
 
 namespace StockGrabber;
@@ -9,26 +9,28 @@ namespace StockGrabber;
 public sealed class StockGrabberHost<TParser> : BackgroundService
     where TParser : class, IStockParser
 {
-    private readonly StockGrabber<TParser, TOptions> _grabber;
-    private readonly IOptions<TOptions> _grabberOptions;
+    private readonly StockGrabber<TParser> _grabber;
+    private readonly IOptionsMonitor<StockGrabberOptions> _grabberOptionsMonitor;
+    private readonly string _grabberOptionsName;
     private readonly IOptions<IngestionOptions> _ingestion;
-    private readonly ILogger<StockGrabberHost<TParser, TOptions>> _logger;
+    private readonly ILogger<StockGrabberHost<TParser>> _logger;
 
     public StockGrabberHost(
-        StockGrabber<TParser, TOptions> grabber,
-        IOptions<TOptions> grabberOptions,
+        StockGrabber<TParser> grabber,
+        IOptionsMonitor<StockGrabberOptions> grabberOptionsMonitor,
         IOptions<IngestionOptions> ingestion,
-        ILogger<StockGrabberHost<TParser, TOptions>> logger)
+        ILogger<StockGrabberHost<TParser>> logger)
     {
         _grabber = grabber;
-        _grabberOptions = grabberOptions;
+        _grabberOptionsMonitor = grabberOptionsMonitor;
+        _grabberOptionsName = TParser.ConfigurationSectionKey;
         _ingestion = ingestion;
         _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        var opt = _grabberOptions.Value;
+        var opt = _grabberOptionsMonitor.Get(_grabberOptionsName);
         var degree = Math.Max(1, opt.DegreeOfParallelism);
         var feedName = opt.Name;
         _logger.LogInformation("Grabber host starting {Feed} lanes {Lanes}", feedName, degree);
