@@ -27,7 +27,9 @@ public static class IndigoServiceCollectionExtensions
         services.AddSingleton<ChannelReader<TickToPersist>>(_ => channel.Reader);
         services.AddSingleton<ChannelWriter<TickToPersist>>(_ => channel.Writer);
 
-        var connectionString = configuration.GetConnectionString("Ticks") ?? "Data Source=ticks.db";
+        var connectionString = configuration.GetConnectionString("Ticks")
+            ?? throw new InvalidOperationException(
+                "Connection string 'Ticks' is not configured. Set ConnectionStrings:Ticks (see appsettings.json).");
         services.AddDbContextFactory<TickDbContext>(o => o.UseSqlite(connectionString));
 
         services.AddSingleton<ITickPersistence, EfTickPersistence>();

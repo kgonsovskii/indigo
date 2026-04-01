@@ -1,5 +1,5 @@
 using System.Globalization;
-using StockExchange.Base.Hosting;
+using StockExchange.Base;
 
 namespace StockExchange.CoinBase
 {

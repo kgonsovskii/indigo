@@ -13,8 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Poller.Infrastructure\Poller.Infrastructure.csproj" />
-    <ProjectReference Include="..\StockGrabber\StockGrabber.csproj" />
-    <ProjectReference Include="..\StockParser.CoinBase\StockParser.CoinBase.csproj" />
-    <ProjectReference Include="..\StockParser.LaToken\StockParser.LaToken.csproj" />
+    <ProjectReference Include="..\Feed.Grabber\Feed.Grabber.csproj" />
+    <ProjectReference Include="..\Feed.Parser.CoinBase\Feed.Parser.CoinBase.csproj" />
+    <ProjectReference Include="..\Feed.Parser.LaToken\Feed.Parser.LaToken.csproj" />
   </ItemGroup>
 </Project>

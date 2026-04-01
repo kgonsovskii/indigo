@@ -1,8 +1,8 @@
+using Feed.Grabber;
+using Feed.Parser.CoinBase;
+using Feed.Parser.LaToken;
 using Poller.Infrastructure.DependencyInjection;
-using StockGrabber;
 using StockParser.Base;
-using StockParser.CoinBase;
-using StockParser.LaToken;
 
 namespace Poller;
 
@@ -18,16 +18,16 @@ internal static class Startup
     }
 
     private static void AddStockGrabber<TParser>(this IServiceCollection services, IConfiguration configuration)
-        where TParser : class, IStockParser
+        where TParser : class, IFeedParser
     {
         var label = TParser.ConfigurationSectionKey;
-        services.AddOptions<StockGrabberOptions>(label)
-            .Bind(configuration.GetSection($"StockGrabber:{label}"));
+        services.AddOptions<FeedGrabberOptions>(label)
+            .Bind(configuration.GetSection($"Feed.Grabber:{label}"));
 
         services.AddTransient<TParser>();
 
-        services.AddTransient<StockGrabber<TParser>>();
+        services.AddTransient<FeedGrabber<TParser>>();
 
-        services.AddHostedService<StockGrabberHost<TParser>>();
+        services.AddHostedService<FeedGrabberHost<TParser>>();
     }
 }

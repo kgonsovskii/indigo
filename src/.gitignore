@@ -570,3 +570,10 @@ migrations/sql
 !Shared.Db/appsettings.db.json
 
 **/*.lang.en.json
+
+# Local SQLite (ConnectionStrings:Ticks)
+*.db
+Data/
+
+*.db
+**/Data/
