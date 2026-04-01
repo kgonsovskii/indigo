@@ -24,7 +24,7 @@ public sealed class EfTickPersistence : ITickPersistence
         var now = DateTimeOffset.UtcNow;
         foreach (var item in ticks)
         {
-            db.Ticks.Add(new TickRecord(item.Tick, item.RawPayload) { IngestedAtUtc = now });
+            db.Ticks.Add(TickRecord.Create(item.Tick, item.RawPayload, now));
         }
 
         await db.SaveChangesAsync(cancellationToken);
