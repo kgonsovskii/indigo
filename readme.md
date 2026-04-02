@@ -2,7 +2,7 @@
 
 **Как запустить**
 
-X Mock'и бирж и Y фид грабберов, которые к ним подключаются и пишут тики в SQLite.
+X Mock'и бирж и Y фид грабберов, которые к ним подключаются и пишут тики в хранилище.
 
 LaToken — порт **5051**, CoinBase — **5052**. WebSocket — путь **`/ws`**, как в `Poller/appsettings.json`.
 
@@ -16,6 +16,7 @@ dotnet run --project src/StockExchange.CoinBase/StockExchange.CoinBase.csproj
 ```
 ```bash
 dotnet run --project src/Poller/Poller.csproj
+```
 
 **Потраченные часы**
 7 часов + 1 час на следующий день (эффект свежего взгляда)
