@@ -56,12 +56,16 @@ namespace StockExchange.Base
             }
 
             var socket = await context.WebSockets.AcceptWebSocketAsync();
+            var log = context.RequestServices.GetRequiredService<ILoggerFactory>().CreateLogger(GetType());
             try
             {
+                var sendCounter = 0;
                 while (socket.State == WebSocketState.Open)
                 {
                     var symbol = Symbols[Random.Shared.Next(Symbols.Length)];
                     var json = BuildQuoteJson(Random.Shared, symbol);
+                    sendCounter++;
+                    log.LogInformation("[{Counter}] {Body}", sendCounter, json);
                     var bytes = Encoding.UTF8.GetBytes(json);
                     await socket.SendAsync(bytes, WebSocketMessageType.Text, true, context.RequestAborted);
                     var delay = Random.Shared.Next(TickDelayMinMs, TickDelayMaxMs + 1);
